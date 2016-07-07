@@ -2,6 +2,7 @@ import Component from 'react-pure-render/component';
 import Icon from './atoms/Icon.react'
 import Input from './atoms/Input.react';
 import Logo from './atoms/Logo.react';
+import MediaQuery from 'react-responsive';
 import Radium from 'radium';
 import React, {PropTypes as RPT} from 'react';
 import ReactDOM from 'react-dom';
@@ -16,15 +17,25 @@ export default class SearchBox extends Component {
     nodeOnClick: RPT.func.isRequired,
     searchAtoms: RPT.func.isRequired,
     searchedText: RPT.string,
-    selectedAtom: RPT.string
+    selectedAtom: RPT.string,
+    toggleSidebar: RPT.func.isRequired,
   }
 
   render() {
-    const {nodeOnClick, searchAtoms, selectedAtom, searchedText} = this.props
+    const {nodeOnClick, searchAtoms, selectedAtom, searchedText, toggleSidebar} = this.props
 
     return (
       <div style={styles.wrapper}>
         <Logo />
+        <MediaQuery maxWidth={929}>
+          <Icon
+            color={colors.GRAY_BRIGHT}
+            kind="chevron-left"
+            onClick={toggleSidebar.bind(this)}
+            size={14}
+            style={styles.closeSidebar}
+          />
+        </MediaQuery>
         <div style={styles.search.group}>
           <Input
             inheritedStyles={styles.search.input}
@@ -124,10 +135,20 @@ const styles = {
   wrapper: {
     flex: '0 0 auto',
     padding: spaces.normal,
-    borderBottom: `1px solid ${colors.GRAY_DARKER}`
+    borderBottom: `1px solid ${colors.GRAY_DARKER}`,
+    position: 'relative'
   },
 
   logo: {
     maxWidth: '120px'
+  },
+
+  closeSidebar: {
+    position: 'absolute',
+    top: '30px',
+    right: '18px',
+    ':hover': {
+      cursor: 'pointer'
+    }
   }
 }

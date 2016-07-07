@@ -19,7 +19,9 @@ export default function StateProvider(Wrapped) {
       searchAtoms: RPT.func,
       setAtomProp: RPT.func,
       setSourceBackground: RPT.func,
+      showMobileSidebar: RPT.bool,
       showSourceCode: RPT.bool,
+      toggleSidebar: RPT.func,
       toggleSourceCode: RPT.func,
       toggleProps: RPT.func
     }
@@ -33,7 +35,9 @@ export default function StateProvider(Wrapped) {
         searchAtoms: this.searchAtoms.bind(this),
         setAtomProp: this.setAtomProp.bind(this),
         setSourceBackground: this.setSourceBackground.bind(this),
+        showMobileSidebar: this.state.showMobileSidebar,
         showSourceCode: this.state.showSourceCode,
+        toggleSidebar: this.toggleSidebar.bind(this),
         toggleSourceCode: this.toggleSourceCode.bind(this),
         toggleProps: this.toggleProps.bind(this)
       }
@@ -44,6 +48,7 @@ export default function StateProvider(Wrapped) {
       selectedAtom: null,
       searchedText: '',
       simplePropsSelected: true,
+      showMobileSidebar: false,
       showSourceCode: false,
       sourceBackground: '#ffffff',
       triggeredProps: new List()
@@ -121,6 +126,13 @@ export default function StateProvider(Wrapped) {
       this.storeStateToLocalStorage('simplePropsSelected', !simplePropsSelected)
     }
 
+    toggleSidebar() {
+      const {showMobileSidebar} = this.state
+
+      this.setState({showMobileSidebar: !showMobileSidebar})
+      this.storeStateToLocalStorage('showMobileSidebar', !showMobileSidebar)
+    }
+
     toggleSourceCode() {
       const {showSourceCode} = this.state
 
@@ -178,6 +190,7 @@ export default function StateProvider(Wrapped) {
         case 'selectedAtom': return localStorage.setItem('bluekitSelectedAtom', value)
         case 'searchedText': return localStorage.setItem('bluekitSearchedText', value)
         case 'simplePropsSelected': return localStorage.setItem('bluekitSimplePropsSelected', JSON.stringify(value))
+        case 'showMobileSidebar': return localStorage.setItem('bluekitShowMobileSidebar', JSON.stringify(value))
         case 'showSourceCode': return localStorage.setItem('bluekitShowSourceCode', JSON.stringify(value))
         case 'sourceBackground': return localStorage.setItem('bluekitSourceBackground', value)
       }
@@ -189,12 +202,14 @@ export default function StateProvider(Wrapped) {
 
       const storedCustomProps = localStorage.getItem('bluekitCustomProps')
       const storedSimplePropsSelected = localStorage.getItem('bluekitSimplePropsSelected')
+      const storedShowMobileSidebar = localStorage.getItem('bluekitShowMobileSidebar')
       const storedShowSourceCode = localStorage.getItem('bluekitShowSourceCode')
 
       const customProps = storedCustomProps ? JSON.parse(storedCustomProps) : this.state.customProps
       const selectedAtom = localStorage.getItem('bluekitSelectedAtom') || this.state.selectedAtom
       const searchedText = localStorage.getItem('bluekitSearchedText') || this.state.searchedText
       const simplePropsSelected = storedSimplePropsSelected ? JSON.parse(storedSimplePropsSelected) : this.state.simplePropsSelected
+      const showMobileSidebar = storedShowMobileSidebar ? JSON.parse(storedShowMobileSidebar) : this.state.showMobileSidebar
       const showSourceCode = storedShowSourceCode ? JSON.parse(storedShowSourceCode) : this.state.showSourceCode
       const sourceBackground = localStorage.getItem('bluekitSourceBackground') || this.state.sourceBackground
 
@@ -203,6 +218,7 @@ export default function StateProvider(Wrapped) {
         selectedAtom,
         searchedText,
         simplePropsSelected: fromJS(simplePropsSelected),
+        showMobileSidebar: fromJS(showMobileSidebar),
         showSourceCode: fromJS(showSourceCode),
         sourceBackground
       })
@@ -216,6 +232,7 @@ export default function StateProvider(Wrapped) {
       localStorage.removeItem('bluekitSelectedAtom')
       localStorage.removeItem('bluekitSearchedText')
       localStorage.removeItem('bluekitSimplePropsSelected')
+      localStorage.removeItem('bluekitShowMobileSidebar')
       localStorage.removeItem('bluekitShowSourceCode')
       localStorage.removeItem('bluekitSourceBackground')
       // refresh page after reset

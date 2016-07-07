@@ -8,6 +8,7 @@ import React from 'react';
 
 const iconList = [
   'arrow',
+  'chevron-left',
   'close',
   'code',
   'colorpicker',
@@ -27,6 +28,7 @@ class Icon extends Component {
     height: React.PropTypes.number,
     kind: React.PropTypes.oneOf([
       'arrow',
+      'chevron-left',
       'close',
       'code',
       'colorpicker',
@@ -41,12 +43,12 @@ class Icon extends Component {
     preview: React.PropTypes.bool,
     size: React.PropTypes.number,
     style: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.object),
+      React.PropTypes.array,
       React.PropTypes.object
     ]),
     width: React.PropTypes.number,
     wrapperStyle: React.PropTypes.oneOfType([
-      React.PropTypes.arrayOf(React.PropTypes.object),
+      React.PropTypes.array,
       React.PropTypes.object
     ])
   };
@@ -96,6 +98,7 @@ class Icon extends Component {
     switch (kind) {
       default: return null;
       case ('arrow'): return (<svg xmlns="http://www.w3.org/2000/svg" fill={color} height={height || size} width={width || size} onClick={onClick} style={style} viewBox="106 -228 512 512"><path d="M610-109.8L362 165.8 114-109.8h496z"/></svg>);
+      case ('chevron-left'): return (<svg xmlns="http://www.w3.org/2000/svg" fill={color} height={height || size} width={width || size} onClick={onClick} style={style} viewBox="0, 0, 9, 12"><path d="M7.9 1.4L6.5 0l-6 6 6 6 1.4-1.4L3.3 6l4.6-4.6z"/></svg>);
       case ('close'): return (<svg xmlns="http://www.w3.org/2000/svg" fill={color} height={height || size} width={width || size} onClick={onClick} style={style} viewBox="106 -228 512 512"><path d="M426.9 28L600 201.1 535.1 266 362 92.9 188.9 266 124 201.1 297.1 28 124-145.1l64.9-64.9L362-36.9 535.1-210l64.9 64.9L426.9 28z"/></svg>);
       case ('code'): return (<svg xmlns="http://www.w3.org/2000/svg" fill={color} height={height || size} width={width || size} onClick={onClick} style={style} viewBox="106 -228 512 512"><path d="M268.5 134.6l-147.6-88V-2.1l147.5-87.4v57.3L165.6 21.7l102.9 56v56.9zm55.8 36.2h-30.7L391.5-115h30.9l-98.1 285.8zm131.2-36.2V77.7l102.7-55.6-102.7-55.2v-56.5L603-2.1v48.4l-147.5 88.3z"/></svg>);
       case ('colorpicker'): return (<svg xmlns="http://www.w3.org/2000/svg" fill={color} height={height || size} width={width || size} onClick={onClick} style={style} viewBox="106 -228 512 512"><path d="M574.8-184.8c-22.9-22.9-59.9-22.9-82.8 0l-69 69-19-19c-10-10-26.2-10-36.3 0-10 10-10 26.2 0 36.3l19 19-212.1 212.1c-10.4 10.4-16.1 23.8-17 37.4-.4 5.6-1.8 15.9-3.4 27-.3 1.8-1.1 3.6-2.5 5l-15.9 15.9c-5.1 5.1-5.1 13.3 0 18.4l17.9 17.9c5.1 5.1 13.3 5.1 18.4 0l15.9-15.9c1.4-1.4 3.2-2.2 5-2.5 11.2-1.7 21.5-3.1 27.1-3.4 13.6-.9 27-6.6 37.4-17L469.6 3.2l19 19c10 10 26.2 10 36.3 0 10-10 10-26.2 0-36.3l-63.2-63.2 49.6 38.7 63.6-63.6c22.8-22.7 22.8-59.8-.1-82.6zM438.9-9.1L334 95.9c-5.1 5.1-13.3 5.1-18.4 0l-16.7-16.7c-5.1-5.1-13.3-5.1-18.4 0l-3.1 3.1-75.3 75.3c-1.7 1.7-4.2 2-5.5.7-1.3-1.3-1-3.8.7-5.5L319.1 30.9 399-49c5.1-5.1 13.3-5.1 18.4 0l21.5 21.5c5.1 5.1 5.1 13.4 0 18.4z"/></svg>);

@@ -1,10 +1,10 @@
 import '../helpers/BluekitEvent';
-import * as colors from './styles/Colors.js'
-import AllComponentsPreview from './AllComponentsPreview.react';
-import ComponentPage from './component/Page.react';
+import Content from './Content.react';
 import FontBold from './styles/FontBold';
+import MediaQuery from 'react-responsive';
 import Radium, {StyleRoot} from 'radium';
 import React, {Component, PropTypes as RPT} from 'react';
+import ResponsiveNav from './ResponsiveNav.react';
 import Sidebar from './Sidebar.react';
 import StateProvider from './StateProvider.react';
 import {FontStyle} from './styles/Font';
@@ -17,7 +17,6 @@ if (typeof window !== 'undefined') {
   require('brace/mode/javascript');
   require('brace/theme/chrome');
 }
-
 
 @StateProvider
 @Radium
@@ -42,7 +41,9 @@ export default class Page extends Component {
     resetPropsToDefault: RPT.func.isRequired,
     selectAtom: RPT.func.isRequired,
     searchAtoms: RPT.func.isRequired,
-    toggleProps: RPT.func.isRequired
+    showMobileSidebar: RPT.bool.isRequired,
+    toggleProps: RPT.func.isRequired,
+    toggleSidebar: RPT.func.isRequired
   }
 
   static defaultProps = {
@@ -51,60 +52,42 @@ export default class Page extends Component {
   }
 
   render() {
-    const {filteredComponentsIndex, height, inline, selectedAtom, searchedText} = this.props
-    const {selectAtom, searchAtoms} = this.context
+    const {
+      componentsIndex, customProps, simplePropsSelected, filteredComponentsIndex, sourceBackground,
+      height, inline, selectedAtom, searchedText, triggeredProps
+    } = this.props
+    const {selectAtom, searchAtoms, showMobileSidebar, toggleSidebar} = this.context
 
     return (
       <StyleRoot>
         <div style={[styles.wrapper.base, inline ? {height: height} : styles.wrapper.full]}>
-          <div style={styles.sidebar}>
-            <Sidebar
-              componentsIndex={filteredComponentsIndex}
-              searchAtoms={searchAtoms}
-              searchedText={searchedText}
-              selectAtom={selectAtom}
-              selectedAtom={selectedAtom}
-            />
-          </div>
-          <div style={styles.content}>
-            {selectedAtom ? this.renderAtom() : this.renderList()}
-          </div>
+          <MediaQuery maxWidth={929}>
+            <ResponsiveNav selectedAtom={selectedAtom} />
+            <div style={[styles.overlay, showMobileSidebar && styles.overlay.active]} />
+          </MediaQuery>
+          <Sidebar
+            componentsIndex={filteredComponentsIndex}
+            searchAtoms={searchAtoms}
+            searchedText={searchedText}
+            selectAtom={selectAtom}
+            selectedAtom={selectedAtom}
+            showMobileSidebar={showMobileSidebar}
+            toggleSidebar={toggleSidebar}
+          />
+          <Content
+            componentsIndex={componentsIndex}
+            customProps={customProps}
+            filteredComponentsIndex={filteredComponentsIndex}
+            selectAtom={selectAtom}
+            selectedAtom={selectedAtom}
+            simplePropsSelected={simplePropsSelected}
+            sourceBackground={sourceBackground}
+            triggeredProps={triggeredProps}
+          />
         </div>
         <FontStyle />
         <FontBold />
       </StyleRoot>
-    );
-  }
-
-  renderAtom() {
-    const {componentsIndex, customProps, selectedAtom, simplePropsSelected, sourceBackground, triggeredProps} = this.props
-    const {selectAtom} = this.context
-
-    return (
-      <ComponentPage
-        componentsIndex={componentsIndex}
-        customProps={customProps}
-        selectAtom={selectAtom}
-        selectedAtom={selectedAtom}
-        simplePropsSelected={simplePropsSelected}
-        sourceBackground={sourceBackground}
-        triggeredProps={triggeredProps}
-      />
-    );
-  }
-
-  renderList() {
-    const {filteredComponentsIndex, selectedAtom} = this.props
-    const {selectAtom} = this.context
-
-    return (
-      <div style={[styles.list]}>
-        <AllComponentsPreview
-          componentsIndex={filteredComponentsIndex}
-          selectAtom={selectAtom}
-          selectedAtom={selectedAtom}
-        />
-      </div>
     );
   }
 
@@ -124,29 +107,18 @@ const styles = {
       bottom: 0
     }
   },
-  sidebar: {
-    width: '20%',
-    height: '100%',
-    display: 'inline-block',
-    overflow: 'hidden',
-    boxSizing: 'border-box',
-    borderRight: `1px solid ${colors.GRAY_DARKER}`,
-    position: 'relative',
-    verticalAlign: 'top'
-  },
-  content: {
-    width: '80%',
-    height: '100%',
-    display: 'inline-block',
-    position: 'relative',
-    verticalAlign: 'top'
-  },
-  list: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
+
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, .4)',
+    position: 'fixed',
     top: 0,
+    left: 0,
+    right: '100%',
     bottom: 0,
-    overflowY: 'auto'
+    zIndex: 9,
+    transition: 'right .2s ease-out',
+    active: {
+      right: 0
+    }
   }
 };
