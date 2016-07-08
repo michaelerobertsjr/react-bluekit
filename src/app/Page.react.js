@@ -8,6 +8,7 @@ import ResponsiveNav from './ResponsiveNav.react';
 import Sidebar from './Sidebar.react';
 import StateProvider from './StateProvider.react';
 import {FontStyle} from './styles/Font';
+import {breakPoints} from './styles/mediaQueries';
 
 if (typeof window !== 'undefined') {
   require('brace');
@@ -61,8 +62,13 @@ export default class Page extends Component {
     return (
       <StyleRoot>
         <div style={[styles.wrapper.base, inline ? {height: height} : styles.wrapper.full]}>
-          <MediaQuery maxWidth={929}>
-            <ResponsiveNav selectedAtom={selectedAtom} />
+          <MediaQuery maxWidth={breakPoints.large}>
+            <ResponsiveNav
+              componentsIndex={componentsIndex}
+              selectAtom={selectAtom}
+              selectedAtom={selectedAtom}
+              toggleSidebar={toggleSidebar}
+            />
             <div style={[styles.overlay, showMobileSidebar && styles.overlay.active]} />
           </MediaQuery>
           <Sidebar

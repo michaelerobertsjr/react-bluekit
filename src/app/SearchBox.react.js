@@ -1,5 +1,5 @@
 import Component from 'react-pure-render/component';
-import Icon from './atoms/Icon.react'
+import Icon from './atoms/Icon.react';
 import Input from './atoms/Input.react';
 import Logo from './atoms/Logo.react';
 import MediaQuery from 'react-responsive';
@@ -8,6 +8,7 @@ import React, {PropTypes as RPT} from 'react';
 import ReactDOM from 'react-dom';
 import spaces from './styles/Spaces';
 import nodesStyles from './styles/Nodes';
+import {breakPoints} from './styles/mediaQueries';
 import * as colors from './styles/Colors'
 
 @Radium
@@ -27,7 +28,7 @@ export default class SearchBox extends Component {
     return (
       <div style={styles.wrapper}>
         <Logo />
-        <MediaQuery maxWidth={929}>
+        <MediaQuery maxWidth={breakPoints.large}>
           <Icon
             color={colors.GRAY_BRIGHT}
             kind="chevron-left"

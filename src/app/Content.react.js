@@ -1,7 +1,7 @@
 import AllComponentsPreview from './AllComponentsPreview.react';
 import Component from 'react-pure-render/component';
 import ComponentPage from './component/Page.react';
-import mediaQueries from './styles/mediaQueries';
+import {mediaQueries} from './styles/mediaQueries';
 import Radium from 'radium';
 import React, {PropTypes as RPT} from 'react';
 
@@ -13,7 +13,7 @@ export default class Content extends Component {
     customProps: RPT.object,
     filteredComponentsIndex: RPT.object.isRequired,
     selectAtom: RPT.func.isRequired,
-    selectedAtom: RPT.string.isRequired,
+    selectedAtom: RPT.string,
     simplePropsSelected: RPT.bool,
     sourceBackground: RPT.string,
     triggeredProps: RPT.object

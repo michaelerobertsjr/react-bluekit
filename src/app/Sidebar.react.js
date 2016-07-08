@@ -1,6 +1,6 @@
 import Component from 'react-pure-render/component';
 import generateTree from '../helpers/generateTree';
-import mediaQueries from './styles/mediaQueries';
+import {mediaQueries} from './styles/mediaQueries';
 import MenuNode from './MenuNode.react';
 import NotFound from './atoms/NotFound.react';
 import Radium from 'radium';
@@ -93,7 +93,7 @@ const styles = {
     backgroundColor: 'white',
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    height: '100%'
   },
 
   nodes: {
