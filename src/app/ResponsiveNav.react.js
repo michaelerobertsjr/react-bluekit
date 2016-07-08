@@ -38,16 +38,17 @@ export default class ResponsiveNav extends Component {
 
     return (
       <div style={styles.wrapper}>
-        <button onClick={toggleSidebar.bind(this)}>
-          <Icon
-            color={colors.GRAY_BRIGHT}
-            kind="menu"
-            size={22}
-          />
-        </button>
+        <Icon
+          color={colors.GRAY_BRIGHT}
+          kind="menu"
+          onClick={toggleSidebar.bind(this)}
+          size={22}
+          style={styles.button}
+        />
         <div style={styles.text}>
           {path.map((pathName, index) => this.renderPath(pathName, index))}
         </div>
+        <div style={styles.clearfix} />
       </div>
     );
   }
@@ -63,11 +64,24 @@ const styles = {
     borderBottom: '1px solid #bfbebe'
   },
 
+  button: {
+    padding: '5px',
+    float: 'left',
+    ':hover': {
+      cursor: 'pointer'
+    }
+  },
+
+  clearfix: {
+    clear: 'both'
+  },
+
   text: {
     ...font,
     display: 'inline-block',
     verticalAlign: 'top',
-    padding: '6px'
+    padding: '8px',
+    float: 'left'
   },
 
   separator: {

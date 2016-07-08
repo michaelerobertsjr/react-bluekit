@@ -69,7 +69,10 @@ export default class Page extends Component {
               selectedAtom={selectedAtom}
               toggleSidebar={toggleSidebar}
             />
-            <div style={[styles.overlay, showMobileSidebar && styles.overlay.active]} />
+            <div
+              onClick={toggleSidebar}
+              style={[styles.overlay, showMobileSidebar && styles.overlay.active]}
+            />
           </MediaQuery>
           <Sidebar
             componentsIndex={filteredComponentsIndex}
@@ -122,9 +125,11 @@ const styles = {
     right: '100%',
     bottom: 0,
     zIndex: 9,
-    transition: 'right .2s ease-out',
+    opacity: 0,
+    transition: 'opacity .2s ease-out',
     active: {
-      right: 0
+      right: 0,
+      opacity: 1
     }
   }
 };
